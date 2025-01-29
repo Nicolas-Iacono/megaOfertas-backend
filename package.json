@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "animejs": "^3.2.2",
+    "jwt-decode": "^4.0.0",
+    "react-slick": "^0.30.2",
+    "slick-carousel": "^1.8.1",
+    "swal": "^0.1.0",
+    "sweetalert2": "^11.15.10"
+  },
+  "scripts": {
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "start:backend": "cd backend && npm start",
+    "start:frontend": "cd mega_ofertas && npm start"
+  }
+}
