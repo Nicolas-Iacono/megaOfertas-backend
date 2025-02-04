@@ -11,5 +11,11 @@ router.post('/register-admin', userController.createAdminWithRelations);
 router.post('/login', userController.loginUser);
 
 router.get('/all', userController.getAllUsers)
-module.exports = router;
+
+router.get("/:id",userController.getUserById);
+
 router.delete('/delete/:id', userController.deleteUser)
+
+router.post("/update/:id", userController.updateUser);
+
+module.exports = router;

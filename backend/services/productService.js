@@ -1,6 +1,6 @@
 const Product = require('../models/Product');
 const Category = require('../models/Category');
-
+const { Op } = require("sequelize");
 exports.getAllProducts = async () => {
     const products = await Product.findAll({
         include: {
@@ -121,3 +121,25 @@ exports.getLatestProducts = async () => {
 
     return result;
 };
+
+exports.searchProduct = async (query) => {
+    if(!query) {
+        throw new Error("No econtramos ese producto.");
+    }
+
+    try {
+        const results = await Product.findAll({
+          where: {
+            nombre: {
+              [Op.like]: `%${query}%`, // Busca en cualquier parte del título
+            },
+          },
+          limit: 10, // Limitar los resultados para mejorar el rendimiento
+        });
+    
+        return results;
+      } catch (error) {
+        console.error("Error al buscar productos:", error);
+        throw new Error("Ocurrió un error al buscar productos.");
+      }
+    };

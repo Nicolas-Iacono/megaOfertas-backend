@@ -86,11 +86,15 @@ exports.createUserWithRelations = async (req, res) => {
       { transaction }
     );
 
-    const authority = await Authorities.findOne({where: {role:'customer'}});
+    const [authority,created] = await Authorities.findOrCreate({where: {role:'user'},  defaults: { role: 'user' } });
     if(!authority){
       return res.status(500).json({message:'El rol no esta definido'})
     }
-   
+    if (created) {
+      console.log(`El rol '${authority.role}' fue creado.`);
+    } else {
+      console.log(`El rol '${authority.role}' ya existía.`);
+    }
     await newUser.addAuthority(authority,  { transaction });
 
     // Confirmar la transacción
@@ -172,9 +176,15 @@ exports.createAdminWithRelations = async (req, res) => {
       { transaction }
     );
 
-    const authority = await Authorities.findOne({where: {role:'admin'}});
+    const [authority,created] = await Authorities.findOrCreate({where: {role:'admin'}, defaults: { role: 'admin' }});
     if(!authority){
       return res.status(500).json({message:'El rol no esta definido'})
+    }
+
+    if (created) {
+      console.log(`El rol '${authority.role}' fue creado.`);
+    } else {
+      console.log(`El rol '${authority.role}' ya existía.`);
     }
    
     await newUser.addAuthority(authority,  { transaction });

@@ -62,3 +62,20 @@ exports.getLatestProducts = async (req, res) => {
         res.status(500).json({ message: 'Error al obtener los últimos productos', error: error.message });
     }
 };
+
+exports.searchProducts = async (req, res) => {
+    try {
+        const { query } = req.query;
+    
+        if (!query) {
+          return res.status(400).json({ message: "Debes proporcionar un término de búsqueda." });
+        }
+    
+        const results = await productService.searchProduct(query);
+        res.json(results);
+      } catch (error) {
+        res.status(500).json({ message: error.message });
+      }
+    };
+    
+  

@@ -1,16 +1,39 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
-const { Address} = require('../models/userInfo/Address');
-const {phone} = require('../models/userInfo/Phone');
+const Address= require('../models/userInfo/Address');
+const Phone = require('../models/userInfo/Phone');
 const Authorities = require('../models/userInfo/Authorities');
 exports.getAllUsers = async () => {
-    return await User.findAll();
-};
+    try {
+        const users = await User.findAll({
+          include: [
+            { model: Address, as: 'address' },
+            { model: Phone, as: 'phone' },
+            { model: Authorities, as: 'authorities' } 
+          ]
+        });
+        return users;
+      } catch (error) {
+        throw error;
+      }
+    };
 
-exports.getUserById = async (id) => {
-    return await User.findByPk(id);
-};
+    exports.getUserById = async (id) => {
+        try {
+          const user = await User.findByPk(id, {
+            include: [
+              { model: Address, as: 'address' },
+              { model: Phone, as: 'phone' },
+              { model: Authorities, as: 'authorities' } 
+            ]
+          });
+      
+          return user; // Devolvemos el usuario encontrado
+        } catch (error) {
+          throw error; // Lanzamos el error para manejarlo en otro lugar
+        }
+      };
 
 exports.createUser = async (userData) => {
     try{
