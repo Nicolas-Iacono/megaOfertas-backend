@@ -11,11 +11,11 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=5000
-      - DB_NAME=railway
-      - DB_USER=postgres
-      - DB_PASSWORD=EWoIZJyqFiHUhvNUmImFUgVSxMlUIMTs
-      - DB_HOST=postgres.railway.internal
-      - DB_PORT=5432
+      - PGDATABASE=railway
+      - PGUSER=postgres
+      - PGPASSWORD=EWoIZJyqFiHUhvNUmImFUgVSxMlUIMTs
+      - PGHOST=postgres.railway.internal
+      - PGPORT=5432
       - JWT_SECRET=ZJ%73@kM!xF4Wv9r$tN&2P6Q1u8HpXa*YdLgT#5C^BzV7JwR
       - JWT_EXPIRES_IN=24h
       - MP_ACCESS_TOKEN=TEST-5972548390104146-020518-94a1fafb2c39214492ca9ee1dc2f3f34-157704548

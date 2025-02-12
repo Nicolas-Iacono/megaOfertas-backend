@@ -3,12 +3,12 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 const sequelize = new Sequelize(
-    process.env.DB_NAME,
-    process.env.DB_USER,
-    process.env.DB_PASSWORD,
+    process.env.PGDATABASE,
+    process.env.PGUSER,
+    process.env.PGPASSWORD,
     {
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT || 5432,
+    host: process.env.PGHOST,
+    port: process.env.PGPORT || 5432,
     dialect: 'postgres',
     define:{
         timestamps: false
