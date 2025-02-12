@@ -69,12 +69,27 @@ exports.updateUser = async (id, userData) => {
     const user = await User.findByPk(id);
     if (!user) throw new Error('Usuario no encontrado');
 
-    if (userData.password) {
-        // Si se proporciona una nueva contraseña, se hashea
-        userData.password = await bcrypt.hash(userData.password, 10);
+    // Crear una copia de los datos para no modificar el objeto original
+    const updatedData = { ...userData };
+
+    // Si se proporciona una contraseña nueva y no está vacía
+    if (updatedData.password && updatedData.password.trim() !== '') {
+        // Hash de la nueva contraseña
+        updatedData.password = await bcrypt.hash(updatedData.password, 10);
+    } else {
+        // Si no hay contraseña nueva o está vacía, mantener la contraseña actual
+        delete updatedData.password;
     }
 
-    return await user.update(userData);
+    // Actualizar el usuario solo con los campos proporcionados
+    await user.update(updatedData);
+    
+    // Obtener el usuario actualizado sin la contraseña
+    const updatedUser = await User.findByPk(id, {
+        attributes: { exclude: ['password'] }
+    });
+
+    return updatedUser;
 };
 
 exports.deleteUser = async (id) => {
@@ -102,4 +117,3 @@ exports.findUserByEmail = async (email) => {
         throw new Error('Error al buscar usuario');
     }
 };
-

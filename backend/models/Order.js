@@ -1,16 +1,37 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 const User = require('./User');
+const OrderDetail = require('./OrderDetail');
 
 const Order = sequelize.define('Order', {
-    totalPrice: { type: DataTypes.FLOAT, allowNull: false },
-    status: { type: DataTypes.STRING, defaultValue: 'pending' }, // pending, completed, cancelled
-});
+    // ID autogenerado
+    preferenceId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    paymentStatus: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    totalAmount: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false
+    },
+    purchaseDate: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW
+    }
+  }, {
+    tableName: 'Orders'
+  });
 
 
-// Relación: Un usuario puede tener muchas órdenes, pero una orden pertenece a un usuario
-User.hasMany(Order, { foreignKey: 'userId', as: 'orders' });console.log('Order model defined');
-Order.belongsTo(User, { foreignKey: 'userId', as: 'user' });
+
+  
+
+
 
 
 module.exports = Order;

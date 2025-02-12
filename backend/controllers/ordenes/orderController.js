@@ -2,10 +2,12 @@ const orderService = require('../../services/orderService');
 
 exports.createOrder = async (req, res) => {
     try {
-        const order = await orderService.createOrder(req.body.products);
-        res.status(201).json(order);
+        const { userId, products } = req.body;
+        const result = await orderService.createOrder({ userId, products });
+        return res.json(result);
     } catch (error) {
-        res.status(500).json({ message: 'Error al crear orden', error: error.message });
+        console.error("Error al crear la orden:", error);
+        return res.status(500).json({ error: error.message });
     }
 };
 

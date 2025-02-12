@@ -241,18 +241,18 @@ exports.loginUser = async (req, res) => {
         if (!isPasswordValid) return res.status(401).json({ message: 'Credenciales inválidas' });
 
         const formattedRoles = user.authorities
-        ? user.authorities.map(auth => `ROLE_${auth.role.toUpperCase()}`)
-        : [];
+            ? user.authorities.map(auth => `ROLE_${auth.role.toUpperCase()}`)
+            : [];
     console.log('Roles del usuario:', formattedRoles);
-
+        
         const payload = { id: user.id, email: user.email, first_name: user.first_name, last_name: user.last_name, authorities: formattedRoles};
 
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
-        
+
 
         res.status(200).json({ message: 'Inicio de sesión exitoso', user: { id: user.id, email: user.email, first_name: user.first_name, last_name: user.last_name, authorities: formattedRoles }, token  });
     } catch (error) {
         res.status(500).json({ message: 'Error al iniciar sesión', error: error.message });
-    }
+        }
 };
 

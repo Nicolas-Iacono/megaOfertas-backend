@@ -10,7 +10,7 @@ const Address = require('././userInfo/Address');
 const Phone = require('././userInfo/Phone');
 const Authorities = require('././userInfo/Authorities');
 const Like = require('./user-Product/Like')
-
+const OrderDetail = require('./OrderDetail')
 
 // Definir relaciones entre modelos
 Category.hasMany(Product, { foreignKey: 'categoriaId',});
@@ -54,6 +54,13 @@ Address.belongsTo(User, {
 });
 
 
+    
+OrderDetail.belongsTo(Order, { foreignKey: 'orderId', as: 'order' });
+OrderDetail.belongsTo(Product, { foreignKey: 'productId', as: 'product' });
+
+Order.belongsTo(User, { foreignKey: 'userId', as: 'user' });
+
+Order.hasMany(OrderDetail, { foreignKey: 'orderId', as: 'orderDetails' });
 // Exportar modelos y Sequelize
 module.exports = {
   sequelize,
@@ -64,5 +71,6 @@ module.exports = {
   Address,
   Phone,
   Authorities,
-  Like
+  Like,
+  OrderDetail
 };
