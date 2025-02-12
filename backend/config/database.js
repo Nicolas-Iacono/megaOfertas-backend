@@ -1,8 +1,8 @@
 const { Sequelize } = require('sequelize');
-require("dotenv").config({
+const dotenv = require("dotenv");
+dotenv.config({
     path: process.env.NODE_ENV === "production" ? ".env.production" : ".env.development",
   });
-dotenv.config();
 
 console.log("Conectando a la base de datos en:", process.env.PGHOST);
 const sequelize = new Sequelize(
